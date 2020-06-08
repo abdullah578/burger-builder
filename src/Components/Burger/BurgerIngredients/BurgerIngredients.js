@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classes from "./BurgerIngredients.module.css";
+const mapToCSS = {
+  breadTop: "BreadTop",
+  breadBottom: "BreadBottom",
+  meat: "Meat",
+  cheese: "Cheese",
+  salad: "Salad",
+  bacon: "Bacon",
+};
 const burgerIngredient = (props) => {
-  const mapToCSS = {
-    breadTop: "BreadTop",
-    breadBottom: "BreadBottom",
-    meat: "Meat",
-    cheese: "Cheese",
-    salad: "Salad",
-    bacon: "Bacon",
-  };
   let ingredient = null;
   if (props.type) {
     ingredient =

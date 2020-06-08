@@ -4,12 +4,13 @@
   text-align: center;
   margin: auto;
   overflow: auto;
+  font-weight: bold;
 }
 
-@media (min-width: 500px) and (min-height: 500px) {
+@media (min-width: 500px) and (min-height: 400px) {
   .burger {
     width: 450px;
-    height: 400px;
+    height: 350px;
   }
 }
 

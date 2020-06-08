@@ -1,18 +1,26 @@
 import React from "react";
 import classes from "./Burger.module.css";
-import BurgerIngredients from "../Burger/BurgerIngredients/BurgerIngredients";
+import BurgerIngredient from "../Burger/BurgerIngredients/BurgerIngredients";
 
 const burger = (props) => {
-  const ingredients = Object.keys(props.ingredients).map((curr) => {
-    return [...new Array(props.ingredients[curr])].map((c, index) => (
-      <BurgerIngredients key={index} type={curr} />
-    ));
-  });
+  let ingredients = Object.keys(props.ingredients)
+    .map((curr) => {
+      return [...new Array(props.ingredients[curr])].map((c, index) => (
+        <BurgerIngredient key={index} type={curr} />
+      ));
+    })
+    .reduce((arr, elem) => arr.concat(elem), []);
+  ingredients = ingredients.length ? (
+    ingredients
+  ) : (
+    <p>Please start adding ingredients !</p>
+  );
+
   return (
     <div className={classes.burger}>
-      <BurgerIngredients type="breadTop" />
+      <BurgerIngredient type="breadTop" />
       {ingredients}
-      <BurgerIngredients type="breadBottom" />
+      <BurgerIngredient type="breadBottom" />
     </div>
   );
 };
