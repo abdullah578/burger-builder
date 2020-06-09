@@ -10,7 +10,6 @@ const controls = [
 ];
 
 const burgerControls = (props) => {
-  console.log(props.handleOrder);
   return (
     <div className={classes.BurgerControls}>
       <p>
