@@ -11,7 +11,7 @@ class layout extends Component {
     const drawerOpen = this.state.drawerOpen;
     this.setState({ drawerOpen: !drawerOpen });
   };
-
+ 
   render() {
     return (
       <React.Fragment>

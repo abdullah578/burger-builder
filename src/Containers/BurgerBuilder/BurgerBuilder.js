@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import axios from "../../axios-config";
 import Burger from "../../Components/Burger/Burger";
 import BurgerControls from "../../Components/Burger/BurgerControls/BurgerControls";
 import Modal from "../../Components/UI/Modal/Modal";
+import Spinner from "../../Components/UI/Spinner/Spinner";
 import OrderSummary from "../../Components/Burger/OrderSummary/OrderSummary";
 const INGREDIENT_PRICES = {
   salad: 0.7,
@@ -20,6 +22,7 @@ class BurgerBuilder extends Component {
     price: 4,
     purchasable: false,
     order: false,
+    dispSpinner: false,
   };
   updatePurchasable = (updatedIngredients) => {
     const sum = Object.keys(updatedIngredients)
@@ -48,7 +51,31 @@ class BurgerBuilder extends Component {
   handleOrder = () => this.setState({ order: true });
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
-    alert("You continued");
+    this.setState({ dispSpinner: true });
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.price,
+      customer: {
+        name: "Abdullah Mohammed",
+        address: {
+          street: "66 Pembroke Street",
+          ZIPcode: "M5A 2N8",
+          country: "Canada",
+        },
+        email: "Abdulah.am2000@gmail.com",
+      },
+      deliveryMethod: "fastest",
+    };
+    axios
+      .post("/orders.json", order)
+      .then((resp) => {
+        this.setState({ dispSpinner: false, order: false });
+        console.log(resp);
+      })
+      .catch((err) => {
+        this.setState({ dispSpinner: false, order: false });
+        console.log(err);
+      });
   };
 
   render() {
@@ -58,12 +85,16 @@ class BurgerBuilder extends Component {
     return (
       <React.Fragment>
         <Modal order={this.state.order} removeModal={this.handleOrderClose}>
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            cancel={this.handleOrderClose}
-            continue={this.handleOrderContinue}
-            price={this.state.price}
-          />
+          {this.state.dispSpinner ? (
+            <Spinner />
+          ) : (
+            <OrderSummary
+              ingredients={this.state.ingredients}
+              cancel={this.handleOrderClose}
+              continue={this.handleOrderContinue}
+              price={this.state.price}
+            />
+          )}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BurgerControls
