@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "../../axios-config";
+import WithErrorHandle from "../../hoc/WithErrorHandle/WithErrorHandle";
 import Burger from "../../Components/Burger/Burger";
 import BurgerControls from "../../Components/Burger/BurgerControls/BurgerControls";
 import Modal from "../../Components/UI/Modal/Modal";
@@ -13,17 +14,21 @@ const INGREDIENT_PRICES = {
 };
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      meat: 0,
-      cheese: 0,
-      bacon: 0,
-    },
+    ingredients: null,
     price: 4,
     purchasable: false,
     order: false,
     dispSpinner: false,
+    appBroken: false,
   };
+  componentDidMount() {
+    axios
+      .get("/ingredients.json")
+      .then((resp) => this.setState({ ingredients: resp.data }))
+      .catch((err) => {
+        this.setState({ appBroken: true });
+      });
+  }
   updatePurchasable = (updatedIngredients) => {
     const sum = Object.keys(updatedIngredients)
       .map((curr) => updatedIngredients[curr])
@@ -70,11 +75,10 @@ class BurgerBuilder extends Component {
       .post("/orders.json", order)
       .then((resp) => {
         this.setState({ dispSpinner: false, order: false });
-        console.log(resp);
       })
       .catch((err) => {
         this.setState({ dispSpinner: false, order: false });
-        console.log(err);
+     
       });
   };
 
@@ -82,10 +86,12 @@ class BurgerBuilder extends Component {
     const disabledTrack = { ...this.state.ingredients };
     for (let key in disabledTrack)
       disabledTrack[key] = disabledTrack[key] === 0;
-    return (
+    return this.state.appBroken ? (
+      <p>Sorry,this app cannot be used at the moment</p>
+    ) : (
       <React.Fragment>
-        <Modal order={this.state.order} removeModal={this.handleOrderClose}>
-          {this.state.dispSpinner ? (
+        <Modal show={this.state.order} removeModal={this.handleOrderClose}>
+          {this.state.dispSpinner || !this.state.ingredients ? (
             <Spinner />
           ) : (
             <OrderSummary
@@ -96,18 +102,24 @@ class BurgerBuilder extends Component {
             />
           )}
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
-        <BurgerControls
-          addIngred={this.addIngredient}
-          remIngred={this.removeIngredient}
-          disable={disabledTrack}
-          price={this.state.price}
-          purchasable={this.state.purchasable}
-          handleOrder={this.handleOrder}
-        />
+        {this.state.ingredients ? (
+          <React.Fragment>
+            <Burger ingredients={this.state.ingredients} />
+            <BurgerControls
+              addIngred={this.addIngredient}
+              remIngred={this.removeIngredient}
+              disable={disabledTrack}
+              price={this.state.price}
+              purchasable={this.state.purchasable}
+              handleOrder={this.handleOrder}
+            />
+          </React.Fragment>
+        ) : (
+          <Spinner />
+        )}
       </React.Fragment>
     );
   }
 }
 
-export default BurgerBuilder;
+export default WithErrorHandle(BurgerBuilder, axios);
