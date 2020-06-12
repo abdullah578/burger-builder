@@ -56,30 +56,11 @@ class BurgerBuilder extends Component {
   handleOrder = () => this.setState({ order: true });
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
-    this.setState({ dispSpinner: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.price,
-      customer: {
-        name: "Abdullah Mohammed",
-        address: {
-          street: "66 Pembroke Street",
-          ZIPcode: "M5A 2N8",
-          country: "Canada",
-        },
-        email: "Abdulah.am2000@gmail.com",
-      },
-      deliveryMethod: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((resp) => {
-        this.setState({ dispSpinner: false, order: false });
-      })
-      .catch((err) => {
-        this.setState({ dispSpinner: false, order: false });
-     
-      });
+    this.props.history.push(
+      `/checkout?ingredients=${JSON.stringify(this.state.ingredients)}&price=${
+        this.state.price
+      }`
+    );
   };
 
   render() {
