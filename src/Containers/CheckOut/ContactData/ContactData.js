@@ -3,14 +3,15 @@ import axios from "../../../axios-config";
 import classes from "./Contactdata.module.css";
 import Spinner from "../../../Components/UI/Spinner/Spinner";
 import Button from "../../../Components/UI/Button/Button";
+import WithErrorHandle from "../../../hoc/WithErrorHandle/WithErrorHandle";
 class ContactData extends Component {
   state = { dispSpinner: false };
   orderHandler = (e) => {
     e.preventDefault();
     this.setState({ dispSpinner: true });
     const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.price,
+      ingredients: this.props.ingredients,
+      price: this.props.price,
       customer: {
         name: "Abdullah Mohammed",
         address: {
@@ -71,4 +72,4 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+export default WithErrorHandle(ContactData, axios);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import queryString from "query-string";
-import CheckOutSummary from "../../Components/CheckOutSummary/CheckOutSummary";
+import CheckOutSummary from "../../Components/Order/CheckOutSummary/CheckOutSummary";
 import ContactData from "./ContactData/ContactData";
 
 class Checkout extends Component {
