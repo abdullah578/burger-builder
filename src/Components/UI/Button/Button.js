@@ -6,7 +6,11 @@ const Button = (props) => {
     ? styles.push(classes.Success)
     : styles.push(classes.Danger);
   return (
-    <button className={styles.join(" ")} onClick={props.clicked}>
+    <button
+      className={styles.join(" ")}
+      onClick={props.clicked}
+      disabled={props.isFormButton && !props.disabled}
+    >
       {props.children}
     </button>
   );

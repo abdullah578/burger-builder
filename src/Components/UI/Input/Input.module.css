@@ -12,7 +12,8 @@
   margin-bottom: 5px;
 }
 
-.InputDiv input {
+.InputDiv input,
+.InputDiv select {
   width: 100%;
   display: block;
   box-sizing: border-box;
@@ -21,7 +22,19 @@
   border: 1px solid #efefef;
   padding: 5px;
 }
-.InputDiv input:focus {
+.InputDiv input:focus,
+.InputDiv select:focus {
   outline: none;
   background-color: #ccc;
+}
+.Invalid::after {
+  content: "Invalid Input";
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  padding: 5px;
+  width: 100%;
+  text-align: left;
+  background-color: salmon;
+  color: #fff;
 }
