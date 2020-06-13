@@ -120,9 +120,10 @@ class ContactData extends Component {
     );
     const orderPost = {
       ingredients: this.props.ingredients,
-      price: this.state.price,
+      price: this.props.price.toFixed(2),
       formDetails: orderForm,
     };
+  
     axios
       .post("/orders.json", orderPost)
       .then((resp) => {
