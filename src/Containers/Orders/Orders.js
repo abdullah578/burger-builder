@@ -13,10 +13,13 @@ class Orders extends Component {
     axios
       .get("/orders.json")
       .then((resp) => {
-        const fetch = Object.keys(resp.data).map((key) => ({
-          ...resp.data[key],
-          id: key,
-        }));
+        console.log(resp);
+        const fetch = resp.data
+          ? Object.keys(resp.data).map((key) => ({
+              ...resp.data[key],
+              id: key,
+            }))
+          : [];
         this.setState({ loading: false, orders: fetch });
       })
       .catch(this.setState({ loading: false }));
