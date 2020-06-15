@@ -23,7 +23,6 @@ class Orders extends Component {
   }
   render() {
     let orders = <Spinner />;
-    console.log(this.state.loading);
     if (!this.state.loading) {
       orders = this.state.orders.map((order) => (
         <Order

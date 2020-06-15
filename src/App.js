@@ -5,6 +5,7 @@ import BurgerBuilder from "./Containers/BurgerBuilder/BurgerBuilder";
 import CheckOut from "./Containers/CheckOut/CheckOut";
 import Orders from "./Containers/Orders/Orders";
 function App() {
+  console.log("ollah");
   return (
     <div>
       <Layout>
