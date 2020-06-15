@@ -33,9 +33,7 @@ class BurgerBuilder extends Component {
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
     this.props.history.push(
-      `/checkout?ingredients=${JSON.stringify(this.props.ingredients)}&price=${
-        this.props.totalPrice
-      }`
+    "/checkout"
     );
   };
 
