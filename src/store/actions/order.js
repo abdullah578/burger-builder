@@ -21,3 +21,18 @@ export const purchaseHandler = (orderData) => (dispatch) =>
 export const setSpinner = () => ({
   type: actionTypes.SET_SPINNER,
 });
+export const fetchOrders = () => (dispatch) => {
+  dispatch({ type: actionTypes.ORDER_INIT });
+  axios
+    .get("/orders.json")
+    .then((resp) => {
+      const fetch = resp.data
+        ? Object.keys(resp.data).map((key) => ({
+            ...resp.data[key],
+            id: key,
+          }))
+        : [];
+      dispatch({ type: actionTypes.ORDER_SUCCESS, orders: fetch });
+    })
+    .catch({ type: actionTypes.ORDER_FAILURE });
+};

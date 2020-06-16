@@ -21,6 +21,12 @@ const orderReducer = (state = initialState, action) => {
 
     case actionTypes.PURCHASE_BURGER_FAILURE:
       return { ...state, dispSpinner: false };
+    case actionTypes.ORDER_INIT:
+      return { ...state, dispSpinner: true };
+    case actionTypes.ORDER_SUCCESS:
+      return { ...state, dispSpinner: false, orders: action.orders };
+    case actionTypes.ORDER_FAILURE:
+      return { ...state, dispSpinner: false, orders: action.orders };
     case actionTypes.SET_SPINNER:
       return { ...state, dispSpinner: true };
     default:
