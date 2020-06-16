@@ -19,3 +19,4 @@ export const fetchIngredients = () => (dispatch) =>
     .catch((err) => {
       dispatch({ type: actionTypes.APP_BROKEN });
     });
+export const priceInit =() => ({ type: actionTypes.PRICE_INIT });

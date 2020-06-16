@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actionCreators from "../../store/actions/burgerBuilder";
+import * as burgerActionCreators from "../../store/actions/burgerBuilder";
+import * as orderActionCreators from "../../store/actions/order";
 import axios from "../../axios-config";
 import WithErrorHandle from "../../hoc/WithErrorHandle/WithErrorHandle";
 import Burger from "../../Components/Burger/Burger";
@@ -16,6 +17,7 @@ class BurgerBuilder extends Component {
   };
   componentDidMount() {
     this.props.fetchIngredients();
+    this.props.price_init();
   }
   updatePurchasable = (updatedIngredients) => {
     const sum = Object.keys(updatedIngredients)
@@ -26,6 +28,7 @@ class BurgerBuilder extends Component {
   handleOrder = () => this.setState({ order: true });
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
+    this.props.purchase_init();
     this.props.history.push("/checkout");
   };
 
@@ -69,16 +72,18 @@ class BurgerBuilder extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice,
-  appBroken: state.appBroken,
+  ingredients: state.burger.ingredients,
+  totalPrice: state.burger.totalPrice,
+  appBroken: state.burger.appBroken,
 });
 const mapDispatchToProps = (dispatch) => ({
+  price_init: () => dispatch(burgerActionCreators.priceInit()),
   addIngredient: (ingredient) =>
-    dispatch(actionCreators.addIngredient(ingredient)),
+    dispatch(burgerActionCreators.addIngredient(ingredient)),
   deleteIngredient: (ingredient) =>
-    dispatch(actionCreators.deleteIngredient(ingredient)),
-  fetchIngredients: () => dispatch(actionCreators.fetchIngredients()),
+    dispatch(burgerActionCreators.deleteIngredient(ingredient)),
+  fetchIngredients: () => dispatch(burgerActionCreators.fetchIngredients()),
+  purchase_init: () => dispatch(orderActionCreators.purchaseInit()),
 });
 export default connect(
   mapStateToProps,

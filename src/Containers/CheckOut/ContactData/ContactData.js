@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import * as actionCreator from "../../../store/actions/order";
 import axios from "../../../axios-config";
 import classes from "./Contactdata.module.css";
 import Spinner from "../../../Components/UI/Spinner/Spinner";
@@ -98,7 +100,7 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-    dispSpinner: false,
+    redirect: false,
   };
   checkValidation = (inputVal, validationRequirement) => {
     let isValid = true;
@@ -114,7 +116,7 @@ class ContactData extends Component {
   };
   orderHandler = (e) => {
     e.preventDefault();
-    this.setState({ dispSpinner: true });
+    this.props.setSpinner();
     const orderForm = {};
     Object.keys(this.state.orderForm).forEach(
       (curr) => (orderForm[curr] = this.state.orderForm[curr].value)
@@ -124,16 +126,7 @@ class ContactData extends Component {
       price: this.props.totalPrice.toFixed(2),
       formDetails: orderForm,
     };
-
-    axios
-      .post("/orders.json", orderPost)
-      .then((resp) => {
-        this.setState({ dispSpinner: false });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        this.setState({ dispSpinner: false });
-      });
+    this.props.onPurchase(orderPost);
   };
   inputHandler = (e, type) => {
     e.preventDefault();
@@ -153,11 +146,13 @@ class ContactData extends Component {
     this.setState({ orderForm: inputParam, formIsValid });
   };
   render() {
-    return (
+    return this.props.purchaseOver ? (
+      <Redirect to="/" />
+    ) : (
       <div className={classes.ContactData}>
         <h4>Enter your contact data</h4>
 
-        {this.state.dispSpinner ? (
+        {this.props.dispSpinner ? (
           <Spinner />
         ) : (
           <form onSubmit={this.orderHandler}>
@@ -200,8 +195,18 @@ class ContactData extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice,
+  ingredients: state.burger.ingredients,
+  totalPrice: state.burger.totalPrice,
+  dispSpinner: state.order.dispSpinner,
+  purchaseOver: state.order.purchase,
 });
 
-export default connect(mapStateToProps)(WithErrorHandle(ContactData, axios));
+const mapDispatchToProps = (dispatch) => ({
+  onPurchase: (orderData) => dispatch(actionCreator.purchaseHandler(orderData)),
+  setSpinner: () => dispatch(actionCreator.setSpinner()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithErrorHandle(ContactData, axios));

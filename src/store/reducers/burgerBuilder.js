@@ -20,6 +20,11 @@ const burgerReducer = (state = initialState, action) => {
         ingredients: action.ingredients,
         appBroken: false,
       };
+    case actionTypes.PRICE_INIT:
+      return {
+        ...state,
+        totalPrice: 4,
+      };
     case actionTypes.APP_BROKEN: {
       return {
         ...state,

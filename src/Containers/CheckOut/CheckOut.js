@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import CheckOutSummary from "../../Components/Order/CheckOutSummary/CheckOutSummary";
 import ContactData from "./ContactData/ContactData";
 
 const checkout = (props) => {
-  return (
+  return props.ingredients ? (
     <div>
       <CheckOutSummary
         ingredients={props.ingredients}
@@ -14,12 +14,14 @@ const checkout = (props) => {
       />
       <Route path="/checkout/contact" component={ContactData} />
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 };
 const mapStateToProps = (state) => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice,
+    ingredients: state.burger.ingredients,
+    totalPrice: state.burger.totalPrice,
   };
 };
 
