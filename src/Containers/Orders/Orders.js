@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+
+
 import axios from "../../axios-config";
 import WithErrorHandle from "../../hoc/WithErrorHandle/WithErrorHandle";
 import Order from "../../Components/Order/Order";
@@ -38,5 +41,6 @@ class Orders extends Component {
     return <div>{orders}</div>;
   }
 }
+
 
 export default WithErrorHandle(Orders, axios);

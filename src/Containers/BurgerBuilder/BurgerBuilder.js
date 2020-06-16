@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
+import * as actionCreators from "../../store/actions/burgerBuilder";
 import axios from "../../axios-config";
 import WithErrorHandle from "../../hoc/WithErrorHandle/WithErrorHandle";
 import Burger from "../../Components/Burger/Burger";
@@ -13,15 +13,9 @@ class BurgerBuilder extends Component {
     purchasable: false,
     order: false,
     dispSpinner: false,
-    appBroken: false,
   };
   componentDidMount() {
-    axios
-      .get("/ingredients.json")
-      .then((resp) => this.setState({ ingredients: resp.data }))
-      .catch((err) => {
-        this.setState({ appBroken: true });
-      });
+    this.props.fetchIngredients();
   }
   updatePurchasable = (updatedIngredients) => {
     const sum = Object.keys(updatedIngredients)
@@ -32,16 +26,14 @@ class BurgerBuilder extends Component {
   handleOrder = () => this.setState({ order: true });
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
-    this.props.history.push(
-    "/checkout"
-    );
+    this.props.history.push("/checkout");
   };
 
   render() {
     const disabledTrack = { ...this.props.ingredients };
     for (let key in disabledTrack)
       disabledTrack[key] = disabledTrack[key] === 0;
-    return this.state.appBroken ? (
+    return this.props.appBroken ? (
       <p>Sorry,this app cannot be used at the moment</p>
     ) : (
       <React.Fragment>
@@ -79,12 +71,14 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (state) => ({
   ingredients: state.ingredients,
   totalPrice: state.totalPrice,
+  appBroken: state.appBroken,
 });
 const mapDispatchToProps = (dispatch) => ({
   addIngredient: (ingredient) =>
-    dispatch({ type: actionTypes.ADD_INGREDIENT, ingredient }),
+    dispatch(actionCreators.addIngredient(ingredient)),
   deleteIngredient: (ingredient) =>
-    dispatch({ type: actionTypes.DELETE_INGREDIENT, ingredient }),
+    dispatch(actionCreators.deleteIngredient(ingredient)),
+  fetchIngredients: () => dispatch(actionCreators.fetchIngredients()),
 });
 export default connect(
   mapStateToProps,
