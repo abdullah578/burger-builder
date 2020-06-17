@@ -71,11 +71,14 @@ class Auth extends Component {
     this.setState((prevState) => ({
       isSignUp: !prevState.isSignUp,
     }));
+ componentWillUnmount() {
+    this.props.setAuthRedirectPath();
+  }
   render() {
     return (
       <div className={classes.Auth}>
         {this.props.error ? <p>{this.props.error.message}</p> : null}
-        {!this.props.isAuth ? null : <Redirect to="/" />}
+        {!this.props.isAuth ? null : <Redirect to={this.props.redirectPath} />}
         {this.props.loading ? (
           <Spinner />
         ) : (
@@ -117,10 +120,12 @@ const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
   isAuth: state.auth.token !== null,
+  redirectPath: state.auth.redirect_path,
 });
 const mapDispatchToProps = (dispatch) => ({
   authenticate: (email, password, isSignUp) =>
     dispatch(actions.authenticate(email, password, isSignUp)),
+  setAuthRedirectPath: () => dispatch(actions.set_auth_redirect("/")),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

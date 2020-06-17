@@ -32,3 +32,7 @@ AIzaSyD3bvAUmmNlIxE7G23dZWXccnRiErkZc3Y`
       })
     );
 };
+export const set_auth_redirect = (url) => ({
+  type: actionTypes.SET_AUTH_REDIRECT,
+  path: url,
+});

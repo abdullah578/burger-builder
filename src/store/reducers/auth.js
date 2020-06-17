@@ -4,6 +4,7 @@ const initialState = {
   userid: null,
   error: null,
   loading: false,
+  redirect_path: "/",
 };
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,6 +33,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         token: null,
         userid: null,
+      };
+    case actionTypes.SET_AUTH_REDIRECT:
+      return {
+        ...state,
+        redirect_path: action.path,
       };
     default:
       return state;
