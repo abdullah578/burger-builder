@@ -12,8 +12,8 @@ export const authenticate = (email, password, isSignUp) => (dispatch) => {
     .post(
       isSignUp
         ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=
-AIzaSyD3bvAUmmNlIxE7G23dZWXccnRiErkZc3Y`
-        : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD3bvAUmmNlIxE7G23dZWXccnRiErkZc3Y`,
+${process.env.REACT_APP_API_KEY}`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`,
       { email, password, returnSecureToken: true }
     )
     .then((resp) => {
