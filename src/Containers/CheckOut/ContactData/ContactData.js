@@ -9,26 +9,7 @@ import Button from "../../../Components/UI/Button/Button";
 import Input from "../../../Components/UI/Input/Input";
 import Select from "../../../Components/UI/Select/Select";
 import WithErrorHandle from "../../../hoc/WithErrorHandle/WithErrorHandle";
-
-const formConfig = (
-  name,
-  type,
-  placeholder,
-  value,
-  validationRequirement,
-  isValid,
-  touch
-) => ({
-  elementConfig: {
-    type,
-    placeholder,
-    name,
-  },
-  value,
-  validationRequirement,
-  isValid,
-  touch,
-});
+import { formConfig } from "../../../utilities/utilities";
 class ContactData extends Component {
   state = {
     orderForm: {

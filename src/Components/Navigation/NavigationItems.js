@@ -14,6 +14,11 @@ const NavigationItems = (props) => {
           Orders
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/login" activeClassName={classes.active}>
+          Authenticate
+        </NavLink>
+      </li>
     </ul>
   );
 };
