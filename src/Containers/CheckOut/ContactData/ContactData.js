@@ -106,6 +106,7 @@ class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice.toFixed(2),
       formDetails: orderForm,
+      userid: this.props.userid,
     };
     this.props.onPurchase(orderPost, this.props.token);
   };
@@ -181,10 +182,12 @@ const mapStateToProps = (state) => ({
   dispSpinner: state.order.dispSpinner,
   purchaseOver: state.order.purchase,
   token: state.auth.token,
+  userid: state.auth.userid,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onPurchase: (orderData) => dispatch(actionCreator.purchaseHandler(orderData)),
+  onPurchase: (orderData, token) =>
+    dispatch(actionCreator.purchaseHandler(orderData, token)),
   setSpinner: () => dispatch(actionCreator.setSpinner()),
 });
 
