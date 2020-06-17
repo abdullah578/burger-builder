@@ -4,9 +4,9 @@ import axios from "../../axios-config";
 export const purchaseInit = () => ({
   type: actionTypes.PURCHASE_INIT,
 });
-export const purchaseHandler = (orderData) => (dispatch) =>
+export const purchaseHandler = (orderData, token) => (dispatch) =>
   axios
-    .post("/orders.json", orderData)
+    .post(`/orders.json?auth=${token}`, orderData)
     .then((resp) => {
       dispatch({
         type: actionTypes.PURCHASE_BURGER_SUCCESS,
@@ -21,10 +21,10 @@ export const purchaseHandler = (orderData) => (dispatch) =>
 export const setSpinner = () => ({
   type: actionTypes.SET_SPINNER,
 });
-export const fetchOrders = () => (dispatch) => {
+export const fetchOrders = (token) => (dispatch) => {
   dispatch({ type: actionTypes.ORDER_INIT });
   axios
-    .get("/orders.json")
+    .get(`/orders.json?auth=${token}`)
     .then((resp) => {
       const fetch = resp.data
         ? Object.keys(resp.data).map((key) => ({
@@ -34,5 +34,5 @@ export const fetchOrders = () => (dispatch) => {
         : [];
       dispatch({ type: actionTypes.ORDER_SUCCESS, orders: fetch });
     })
-    .catch({ type: actionTypes.ORDER_FAILURE });
+    .catch((err) => dispatch({ type: actionTypes.ORDER_FAILURE }));
 };

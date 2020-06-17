@@ -107,7 +107,7 @@ class ContactData extends Component {
       price: this.props.totalPrice.toFixed(2),
       formDetails: orderForm,
     };
-    this.props.onPurchase(orderPost);
+    this.props.onPurchase(orderPost, this.props.token);
   };
   inputHandler = (e, type) => {
     e.preventDefault();
@@ -180,6 +180,7 @@ const mapStateToProps = (state) => ({
   totalPrice: state.burger.totalPrice,
   dispSpinner: state.order.dispSpinner,
   purchaseOver: state.order.purchase,
+  token: state.auth.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({

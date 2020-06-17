@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import * as actions from "../../store/actions/auth";
 import classes from "./Auth.module.css";
 import { formConfig } from "../../utilities/utilities";
@@ -73,7 +74,8 @@ class Auth extends Component {
   render() {
     return (
       <div className={classes.Auth}>
-      {this.props.error ? <p>{this.props.error.message}</p>:null}
+        {this.props.error ? <p>{this.props.error.message}</p> : null}
+        {!this.props.isAuth ? null : <Redirect to="/" />}
         {this.props.loading ? (
           <Spinner />
         ) : (
@@ -114,6 +116,7 @@ class Auth extends Component {
 const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
+  isAuth: state.auth.token !== null,
 });
 const mapDispatchToProps = (dispatch) => ({
   authenticate: (email, password, isSignUp) =>

@@ -26,7 +26,7 @@
   color: #40a4c8;
 }
 
-@media (min-width: 550px) {
+@media (min-width: 500px) {
   .Navigation {
     display: flex;
     flex-flow: row;

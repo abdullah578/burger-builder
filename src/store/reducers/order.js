@@ -26,7 +26,7 @@ const orderReducer = (state = initialState, action) => {
     case actionTypes.ORDER_SUCCESS:
       return { ...state, dispSpinner: false, orders: action.orders };
     case actionTypes.ORDER_FAILURE:
-      return { ...state, dispSpinner: false, orders: action.orders };
+      return { ...state, dispSpinner: false, orders: [] };
     case actionTypes.SET_SPINNER:
       return { ...state, dispSpinner: true };
     default:
