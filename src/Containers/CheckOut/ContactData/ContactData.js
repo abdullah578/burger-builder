@@ -9,7 +9,7 @@ import Button from "../../../Components/UI/Button/Button";
 import Input from "../../../Components/UI/Input/Input";
 import Select from "../../../Components/UI/Select/Select";
 import WithErrorHandle from "../../../hoc/WithErrorHandle/WithErrorHandle";
-import { formConfig } from "../../../utilities/utilities";
+import { formConfig, checkValidation } from "../../../utilities/utilities";
 class ContactData extends Component {
   state = {
     orderForm: {
@@ -83,18 +83,6 @@ class ContactData extends Component {
     formIsValid: false,
     redirect: false,
   };
-  checkValidation = (inputVal, validationRequirement) => {
-    let isValid = true;
-    if (validationRequirement.isRequired)
-      isValid = inputVal.trim().length > 0 && isValid;
-    if (validationRequirement.minLength)
-      isValid =
-        inputVal.trim().length >= validationRequirement.minLength && isValid;
-    if (validationRequirement.maxLength)
-      isValid =
-        inputVal.trim().length <= validationRequirement.maxLength && isValid;
-    return isValid;
-  };
   orderHandler = (e) => {
     e.preventDefault();
     this.props.setSpinner();
@@ -116,7 +104,7 @@ class ContactData extends Component {
     const inputField = { ...this.state.orderForm[type] };
     inputField.value = e.target.value;
     if (inputField.validationRequirement)
-      inputField.isValid = this.checkValidation(
+      inputField.isValid = checkValidation(
         inputField.value,
         inputField.validationRequirement
       );

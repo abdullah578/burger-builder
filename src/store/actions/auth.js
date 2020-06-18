@@ -35,7 +35,6 @@ ${process.env.REACT_APP_API_KEY}`
       { email, password, returnSecureToken: true }
     )
     .then((resp) => {
-      console.log(resp.data);
       localStorage.setItem("token", resp.data.idToken);
       const expiryTime = new Date(
         new Date().getTime() + resp.data.expiresIn * 1000

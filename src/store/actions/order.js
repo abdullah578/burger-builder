@@ -5,7 +5,6 @@ export const purchaseInit = () => ({
   type: actionTypes.PURCHASE_INIT,
 });
 export const purchaseHandler = (orderData, token) => (dispatch) => {
-  console.log(token);
   axios
     .post(`/orders.json?auth=${token}`, orderData)
     .then((resp) => {

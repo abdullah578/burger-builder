@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as actions from "../../store/actions/auth";
 import classes from "./Auth.module.css";
-import { formConfig } from "../../utilities/utilities";
+import { formConfig, checkValidation } from "../../utilities/utilities";
 import Input from "../../Components/UI/Input/Input";
 import Button from "../../Components/UI/Button/Button";
 import Spinner from "../../Components/UI/Spinner/Spinner";
@@ -36,25 +36,13 @@ class Auth extends Component {
     },
     isSignUp: true,
   };
-  checkValidation = (inputVal, validationRequirement) => {
-    let isValid = true;
-    if (validationRequirement.isRequired)
-      isValid = inputVal.trim().length > 0 && isValid;
-    if (validationRequirement.minLength)
-      isValid =
-        inputVal.trim().length >= validationRequirement.minLength && isValid;
-    if (validationRequirement.maxLength)
-      isValid =
-        inputVal.trim().length <= validationRequirement.maxLength && isValid;
-    return isValid;
-  };
   inputHandler = (e, control) => {
     const updatedControls = {
       ...this.state.controls,
       [control]: {
         ...this.state.controls[control],
         value: e.target.value,
-        isValid: this.checkValidation(
+        isValid:checkValidation(
           e.target.value,
           this.state.controls[control].validationRequirement
         ),
@@ -63,15 +51,14 @@ class Auth extends Component {
     };
     this.setState({ controls: updatedControls });
   };
-  submitHandler = (e, email, password, isSignUp) => {
-    e.preventDefault();
+  submitHandler = (email, password, isSignUp) => {
     this.props.authenticate(email, password, isSignUp);
   };
   switchAuth = () =>
     this.setState((prevState) => ({
       isSignUp: !prevState.isSignUp,
     }));
- componentWillUnmount() {
+  componentWillUnmount() {
     this.props.setAuthRedirectPath();
   }
   render() {
@@ -82,16 +69,7 @@ class Auth extends Component {
         {this.props.loading ? (
           <Spinner />
         ) : (
-          <form
-            onSubmit={(e) =>
-              this.submitHandler(
-                e,
-                this.state.controls.email.value,
-                this.state.controls.passWord.value,
-                this.state.isSignUp
-              )
-            }
-          >
+          <form onSubmit={(e) => e.preventDefault()}>
             {Object.keys(this.state.controls).map((curr) => (
               <Input
                 elementConfig={this.state.controls[curr].elementConfig}
@@ -105,7 +83,18 @@ class Auth extends Component {
                 }
               />
             ))}
-            <Button type="Success">Submit</Button>
+            <Button
+              clicked={() =>
+                this.submitHandler(
+                  this.state.controls.email.value,
+                  this.state.controls.passWord.value,
+                  this.state.isSignUp
+                )
+              }
+              type="Success"
+            >
+              Submit
+            </Button>
             <Button type="Danger" clicked={this.switchAuth}>
               Switch to {this.state.isSignUp ? "Sign In" : "Sign Up"}
             </Button>
