@@ -19,6 +19,7 @@ class BurgerBuilder extends Component {
   componentDidMount() {
     this.props.fetchIngredients();
     this.props.price_init();
+    this.props.purchase_init();
     this.props.set_auth_redirect("/");
   }
   updatePurchasable = (updatedIngredients) => {
@@ -35,7 +36,6 @@ class BurgerBuilder extends Component {
   };
   handleOrderClose = () => this.setState({ order: false });
   handleOrderContinue = () => {
-    this.props.purchase_init();
     this.props.history.push("/checkout");
   };
 
