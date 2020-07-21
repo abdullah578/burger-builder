@@ -21,15 +21,11 @@ Second Option:
 
 1. Visit: [react-burger-builder-4ffaa.web.app](/https://react-burger-builder-4ffaa.web.app/)
 
-## User Interface
-
-This section will show you some of the features of the app
-
 #### Home Page
 
 ![Home Page](/docs/home.png)
 
-The dashboard displays the burger and allows user to add or remove ingredients.
+The dashboard displays the burger and allows the user to add or remove ingredients.
 
 
 ## Built With
