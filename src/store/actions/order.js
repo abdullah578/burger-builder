@@ -32,6 +32,7 @@ export const fetchOrders = (token, userid) => (dispatch) => {
             id: key,
           }))
         : [];
+      console.log(resp);
       dispatch({ type: actionTypes.ORDER_SUCCESS, orders: fetch });
     })
     .catch((err) => dispatch({ type: actionTypes.ORDER_FAILURE }));
