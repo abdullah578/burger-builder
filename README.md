@@ -19,7 +19,7 @@ First Option:
 
 Second Option:
 
-1. Visit: [react-burger-builder-4ffaa.web.app](/https://react-burger-builder-4ffaa.web.app/)
+1. Visit: [react-burger-builder-4ffaa.web.app](https://react-burger-builder-4ffaa.web.app/)
 
 ## User Interface
 
