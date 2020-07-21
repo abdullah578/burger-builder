@@ -21,6 +21,8 @@ Second Option:
 
 1. Visit: [react-burger-builder-4ffaa.web.app](/https://react-burger-builder-4ffaa.web.app/)
 
+## User Interface
+
 #### Home Page
 
 ![Home Page](/docs/home.png)
